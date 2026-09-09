@@ -251,8 +251,23 @@
       var m = foot.querySelector(".footer-news-msg");
       if (m) m.hidden = false;
     });
-    // (En escritorio las columnas van siempre visibles y en mobile funcionan
-    //  como accordion nativo <details> — todo lo maneja el CSS.)
+
+    // <details> en Chrome esconde el contenido cerrado por mecanismo propio
+    // (::details-content), que el CSS `display` NO override. Así que en
+    // escritorio abrimos las columnas con el atributo `open` nativo; en mobile
+    // quedan como accordion (cerradas, abren al tocar).
+    var footAccs = foot.querySelectorAll(".footer-acc");
+    var footMq = window.matchMedia("(min-width: 721px)");
+    var applyFootAccs = function (force) {
+      footAccs.forEach(function (d) {
+        if (footMq.matches) d.setAttribute("open", "");
+        else if (force) d.removeAttribute("open");
+      });
+    };
+    applyFootAccs(false);
+    var onFootMq = function () { applyFootAccs(true); };
+    if (footMq.addEventListener) footMq.addEventListener("change", onFootMq);
+    else if (footMq.addListener) footMq.addListener(onFootMq);
   }
 
   // Barra de progreso de scroll (se crea sola)
