@@ -132,7 +132,10 @@ a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-vi
   position: sticky; top: 0; z-index: 500;
   background: var(--espresso);
   border-bottom: 1px solid rgba(237,232,222,.10);
+  transition: box-shadow var(--dur-2) var(--ease-std);
 }
+/* Al scrollear, el header "flota": una sombra-filete lo despega del contenido */
+.site-header.is-scrolled { box-shadow: 0 10px 30px -16px rgba(15,11,7,.6); }
 
 /* ---------- Hamburguesa + panel lateral (mobile) ---------- */
 .nav-burger {
@@ -354,8 +357,11 @@ main > section + section::before {
 @media (min-width: 1400px) { .hero-bg { background-position: 78% 11%; } }
 .hero-scrim {
   position: absolute; inset: 0;
+  /* La mitad izquierda queda 100% opaca para tapar el texto de marketing
+     quemado en el banner ("DESCUBRÍ PERFUMES DE LUJO EN DECANTS"). Los
+     frascos viven en la derecha, ahí el velo se abre. */
   background:
-    linear-gradient(90deg, rgba(20,15,10,.97) 0%, rgba(20,15,10,.95) 42%, rgba(20,15,10,.5) 60%, rgba(20,15,10,.08) 78%, rgba(20,15,10,0) 100%),
+    linear-gradient(90deg, var(--espresso) 0%, var(--espresso) 47%, rgba(27,23,18,.55) 63%, rgba(27,23,18,.08) 81%, transparent 100%),
     linear-gradient(180deg, rgba(15,11,7,.1) 0%, rgba(15,11,7,.3) 50%, rgba(15,11,7,.75) 82%, var(--espresso) 100%);
 }
 .hero-full-inner { position: relative; z-index: 1; max-width: 30rem; width: 100%; }
@@ -369,6 +375,34 @@ main > section + section::before {
   margin: 0; max-width: 27rem;
 }
 .hero-actions { display: flex; align-items: center; gap: 1.6rem; margin-top: 2rem; flex-wrap: wrap; }
+
+/* --- Entrada del hero al cargar (motion.js agrega .hero-anim + parte las palabras del h1) --- */
+.hero-full-inner.hero-anim { --hero-base: .15s; }
+.hero-full-inner.hero-anim .eyebrow,
+.hero-full-inner.hero-anim > p,
+.hero-full-inner.hero-anim > .hero-actions {
+  opacity: 0;
+  animation: heroRise .55s var(--ease-out) both;
+}
+.hero-full-inner.hero-anim .eyebrow        { animation-delay: var(--hero-base); }
+.hero-full-inner.hero-anim > p             { animation-delay: calc(var(--hero-base) + .36s); }
+.hero-full-inner.hero-anim > .hero-actions { animation-delay: calc(var(--hero-base) + .46s); }
+.hero-full-inner.hero-anim .hw { display: inline-block; overflow: hidden; vertical-align: top; }
+.hero-full-inner.hero-anim .hw > span {
+  display: inline-block; transform: translateY(105%);
+  animation: heroWord .6s var(--ease-out) both;
+  animation-delay: calc(var(--hero-base) + .09s + var(--hw-i, 0) * .05s);
+}
+@keyframes heroRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes heroWord { to { transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-full-inner.hero-anim .eyebrow,
+  .hero-full-inner.hero-anim > p,
+  .hero-full-inner.hero-anim > .hero-actions,
+  .hero-full-inner.hero-anim .hw > span {
+    opacity: 1 !important; transform: none !important; animation: none !important;
+  }
+}
 @media (max-width: 720px) {
   /* Mobile: los 3 frascos completos (assets/hero-frascos.webp) en una franja
      arriba, y el texto abajo sobre espresso. */

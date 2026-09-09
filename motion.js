@@ -272,16 +272,46 @@
     else if (footMq.addListener) footMq.addListener(onFootMq);
   }
 
-  // Barra de progreso de scroll (se crea sola)
+  // Barra de progreso de scroll + sombra del header al scrollear
+  var progressBar = null;
   if (!reduced) {
-    var bar = document.createElement("div");
-    bar.className = "mk-progress";
-    document.body.appendChild(bar);
-    var onScroll = function () {
-      var h = document.documentElement;
+    progressBar = document.createElement("div");
+    progressBar.className = "mk-progress";
+    document.body.appendChild(progressBar);
+  }
+  var headerEl = document.querySelector(".site-header");
+  var onScroll = function () {
+    var h = document.documentElement;
+    if (progressBar) {
       var p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
-      bar.style.transform = "scaleX(" + p + ")";
-    };
-    addEventListener("scroll", onScroll, { passive: true }); onScroll();
+      progressBar.style.transform = "scaleX(" + p + ")";
+    }
+    if (headerEl) headerEl.classList.toggle("is-scrolled", h.scrollTop > 8);
+  };
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // ---- Entrada del hero al cargar ----
+  var heroInner = document.querySelector(".hero-full-inner");
+  var heroH1 = heroInner && heroInner.querySelector("h1");
+  if (heroInner && heroH1 && !reduced) {
+    // parte el titular en palabras animables
+    var words = heroH1.textContent.trim().split(/\s+/);
+    heroH1.textContent = "";
+    words.forEach(function (w, i) {
+      var wrap = document.createElement("span");
+      wrap.className = "hw";
+      var inner = document.createElement("span");
+      inner.textContent = w;
+      inner.style.setProperty("--hw-i", i);
+      wrap.appendChild(inner);
+      heroH1.appendChild(wrap);
+      heroH1.appendChild(document.createTextNode(" "));
+    });
+    // el bloque de intro (arriba) ya sacó el telón si no toca mostrarlo;
+    // si sigue en el DOM es porque está subiendo → la entrada lo espera
+    var introPlaying = !!document.querySelector(".mk-intro");
+    heroInner.style.setProperty("--hero-base", introPlaying ? "1.55s" : ".15s");
+    heroInner.classList.add("hero-anim");
   }
 })();
