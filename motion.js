@@ -36,8 +36,13 @@
     header.parentNode.insertBefore(anno, header);
     var msgEl = anno.querySelector(".anno-msg");
     var ai = 0, atimer;
-    var showMsg = function (i) { ai = (i + MSGS.length) % MSGS.length; msgEl.innerHTML = MSGS[ai]; };
-    var cycle = function () { atimer = setInterval(function () { showMsg(ai + 1); }, 5000); };
+    var showMsg = function (i) {
+      ai = (i + MSGS.length) % MSGS.length;
+      if (reduced) { msgEl.innerHTML = MSGS[ai]; return; }
+      msgEl.style.opacity = "0";
+      setTimeout(function () { msgEl.innerHTML = MSGS[ai]; msgEl.style.opacity = "1"; }, 180);
+    };
+    var cycle = function () { atimer = setInterval(function () { showMsg(ai + 1); }, 6000); };
     var reset = function () { clearInterval(atimer); if (!reduced) cycle(); };
     anno.querySelector(".anno-prev").addEventListener("click", function () { showMsg(ai - 1); reset(); });
     anno.querySelector(".anno-next").addEventListener("click", function () { showMsg(ai + 1); reset(); });
@@ -313,5 +318,29 @@
     var introPlaying = !!document.querySelector(".mk-intro");
     heroInner.style.setProperty("--hero-base", introPlaying ? "1.55s" : ".15s");
     heroInner.classList.add("hero-anim");
+  }
+
+  // ---- Reveal sutil de las grillas de producto al entrar en viewport ----
+  var grids = document.querySelectorAll(".product-grid");
+  if (grids.length && !reduced) {
+    grids.forEach(function (g) { g.classList.add("reveal-grid"); });
+    var revIO = new IntersectionObserver(function (entries) {
+      var batch = 0;
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.style.setProperty("--ri", Math.min(batch++, 5));
+        e.target.classList.add("in");
+        revIO.unobserve(e.target);
+      });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.05 });
+    var observeCards = function () {
+      grids.forEach(function (g) {
+        g.querySelectorAll(".product-card:not(.in)").forEach(function (c) { revIO.observe(c); });
+      });
+    };
+    observeCards();
+    // las grillas se llenan por JS después de motion.js → re-observar al aparecer
+    var gridMO = new MutationObserver(observeCards);
+    grids.forEach(function (g) { gridMO.observe(g, { childList: true }); });
   }
 })();

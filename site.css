@@ -66,6 +66,7 @@ h1, h2, h3, h4 {
   line-height: 1.12;
   letter-spacing: -0.011em;
   color: var(--ink);
+  font-optical-sizing: auto;   /* Newsreader es variable: títulos grandes usan el corte display */
 }
 h1 { font-size: clamp(2.1rem, 5.2vw, 3.4rem); }
 h2 { font-size: clamp(1.55rem, 3.4vw, 2.15rem); }
@@ -104,7 +105,7 @@ a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-vi
   font-family: var(--font-ui);
   font-size: .72rem;
   font-weight: 600;
-  letter-spacing: .02em;
+  letter-spacing: .05em;
   color: var(--ink-soft);
   margin-bottom: .75rem;
 }
@@ -117,6 +118,7 @@ a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-vi
   padding: .55rem 2.6rem; position: relative; text-align: center;
   border-bottom: 1px solid rgba(237,232,222,.08);
 }
+.anno-bar .anno-msg { transition: opacity var(--dur-2) var(--ease-std); }
 .anno-bar .anno-msg strong { color: #C9A54B; font-weight: 600; }
 .anno-bar button {
   position: absolute; top: 0; bottom: 0; width: 2.6rem;
@@ -473,7 +475,8 @@ main > section + section::before {
 .cat-taglist li::before { content: "— "; color: var(--gold); }
 
 /* ---------- Explicador ---------- */
-.explainer { max-width: var(--measure-text); margin: 0 auto; }
+.explainer { max-width: var(--measure); margin: 0 auto; }
+.explainer > * { max-width: var(--measure-text); }
 .explainer h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); }
 .explainer p { margin-top: 1rem; font-size: 1.1rem; color: var(--ink-soft); }
 
@@ -504,6 +507,16 @@ main > section + section::before {
 }
 .product-card .card-photo img { width: 100%; height: 100%; object-fit: contain; padding: 12%; }
 .product-card:hover .card-photo { opacity: .82; }
+
+/* Reveal sutil de las tarjetas al entrar en viewport (motion.js agrega .reveal-grid + .in) */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-grid .product-card {
+    opacity: 0; transform: translateY(16px);
+    transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out);
+    transition-delay: calc(var(--ri, 0) * 45ms);
+  }
+  .reveal-grid .product-card.in { opacity: 1; transform: none; }
+}
 .product-card .eyebrow { margin-bottom: .3rem; font-size: .68rem; }
 .product-card h3 {
   font-family: var(--font-display); font-weight: 400; font-size: 1.1rem;
@@ -642,15 +655,21 @@ main > section + section::before {
 
 /* ---------- Ficha de producto ---------- */
 .product-detail {
-  display: grid; grid-template-columns: minmax(240px, 400px) 1fr; gap: clamp(2rem, 6vw, 5rem);
-  max-width: 1000px; margin: 0 auto; align-items: start;
+  display: grid; grid-template-columns: minmax(240px, 380px) minmax(0, 420px);
+  gap: clamp(2rem, 6vw, 4.5rem);
+  justify-content: center;
+  max-width: 900px; margin: 0 auto; align-items: start;
 }
 @media (max-width: 720px) { .product-detail { grid-template-columns: 1fr; } }
 .product-detail .card-photo {
-  width: 100%; aspect-ratio: 4 / 5; overflow: hidden;
+  width: 100%; aspect-ratio: 1; overflow: hidden;
   background: var(--card); border-radius: 2px; display: grid; place-items: center;
 }
-.product-detail .card-photo img { width: 100%; height: 100%; object-fit: contain; padding: 10%; }
+.product-detail .card-photo img { width: 100%; height: 100%; object-fit: contain; padding: 6%; }
+@media (prefers-reduced-motion: no-preference) {
+  .product-detail .card-photo img { animation: pdImg .4s var(--ease-out) both; }
+}
+@keyframes pdImg { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: none; } }
 .product-detail-info .eyebrow { margin-bottom: .5rem; }
 .product-detail-info h1 { font-size: clamp(1.9rem, 4.4vw, 2.7rem); margin-bottom: 1.2rem; }
 .product-detail-info .product-price-list { width: min(100%, 360px); margin-bottom: 1.8rem; }
