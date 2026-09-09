@@ -56,6 +56,13 @@
     actions.insertBefore(sform, actions.firstChild);
   }
 
+  // ---- Prioridad visual: destacar las secciones de compra en el nav ----
+  document.querySelectorAll(".site-tabs a").forEach(function (a) {
+    if (/\b(decants|perfumes|mayorista)\.html/.test(a.getAttribute("href") || "")) {
+      a.classList.add("is-shop");
+    }
+  });
+
   // ---- Menú lateral (hamburguesa) en mobile ----
   var headerTop = document.querySelector(".site-header-top");
   var tabs = document.querySelector(".site-tabs");
@@ -244,20 +251,8 @@
       var m = foot.querySelector(".footer-news-msg");
       if (m) m.hidden = false;
     });
-
-    // En escritorio las columnas van siempre abiertas; en mobile, accordion.
-    var accs = foot.querySelectorAll(".footer-acc");
-    var syncFootAcc = function () {
-      var desktop = (document.documentElement.clientWidth || window.innerWidth) >= 721;
-      accs.forEach(function (d) {
-        if (desktop) d.setAttribute("open", "");
-        else d.removeAttribute("open");
-      });
-    };
-    syncFootAcc();
-    addEventListener("resize", syncFootAcc, { passive: true });
-    addEventListener("load", syncFootAcc);
-    setTimeout(syncFootAcc, 300);
+    // (En escritorio las columnas van siempre visibles y en mobile funcionan
+    //  como accordion nativo <details> — todo lo maneja el CSS.)
   }
 
   // Barra de progreso de scroll (se crea sola)

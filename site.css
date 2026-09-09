@@ -236,6 +236,8 @@ a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-vi
   border-bottom: 1.5px solid transparent;
   transition: color 140ms ease, border-color 140ms ease;
 }
+/* Secciones de compra: más peso visual que los ítems informativos */
+.site-tabs a.is-shop { color: rgba(237,232,222,.92); font-weight: 600; }
 .site-tabs a:hover { color: var(--paper-on-dark); }
 .site-tabs a.active { color: #fff; border-bottom-color: var(--gold); }
 @media (max-width: 600px) { .site-tabs { column-gap: 1.1rem; } .site-tabs a { font-size: .74rem; } }
@@ -640,6 +642,12 @@ main > section + section::before {
 .prose strong { color: var(--ink); }
 .prose a { color: var(--ink); border-bottom: 1px solid var(--gold); }
 
+/* ---------- Bloque de cierre en páginas informativas (ruta al catálogo) ---------- */
+.page-cta .section-inner { max-width: var(--measure-text); }
+.page-cta .eyebrow { margin-bottom: .4rem; }
+.page-cta h2 { font-size: clamp(1.5rem, 4vw, 2.1rem); margin-bottom: 1.3rem; }
+.page-cta-actions { display: flex; gap: 1.4rem; align-items: center; flex-wrap: wrap; }
+
 /* ---------- Footer ---------- */
 .site-footer {
   background: var(--espresso); color: rgba(237,232,222,.72);
@@ -676,8 +684,10 @@ main > section + section::before {
 }
 .footer-acc > summary::-webkit-details-marker { display: none; }
 .footer-acc > summary .footer-acc-chev { display: none; }
-.footer-acc > div { flex-direction: column; gap: .55rem; }
-/* Escritorio: las columnas siempre abiertas, el summary no es interactivo */
+.footer-acc > div { display: flex; flex-direction: column; gap: .6rem; }
+/* Mobile: <details> cerrado esconde la columna (accordion nativo) */
+.footer-acc:not([open]) > div { display: none; }
+/* Escritorio: las columnas siempre visibles, el summary no es interactivo */
 @media (min-width: 721px) {
   .footer-acc > summary { cursor: default; margin-bottom: 1rem; pointer-events: none; }
   .footer-acc > div { display: flex !important; }
