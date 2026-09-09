@@ -1,9 +1,9 @@
-/* GMN Importados — rediseño editorial (preview)
-   Perfumería de decants, Villa Luzuriaga. Objetivo: que se lea "caro"
-   sin disfrazarse de maison parisina. Una sola serif (Newsreader) usada
-   en todo su rango, papel cálido, dorado sólo en filetes, y una marca
-   propia: "la línea de medida" (filete con tick, como la graduación de
-   un frasco de decant). */
+/* GMN Importados — hoja de estilos del sitio.
+   Dirección: editorial. Una sola serif (Newsreader) en todo su rango,
+   papel cálido #F2F1ED, header/footer espresso, dorado sólo en filetes.
+   Marca propia: "la línea de medida" (filete con tick vertical, como la
+   graduación de un frasco de decant). Tokens de color, tipografía y
+   movimiento en :root. */
 
 :root {
   /* --- paleta nueva --- */
@@ -35,6 +35,13 @@
 
   --measure: 1180px;
   --measure-text: 40rem;
+
+  /* --- sistema de movimiento --- */
+  --ease-out: cubic-bezier(.22, 1, .36, 1);      /* entradas: arranca rápido, frena suave */
+  --ease-std: cubic-bezier(.4, 0, .2, 1);        /* movimiento en pantalla */
+  --dur-1: 120ms;   /* micro-feedback (hover, press) */
+  --dur-2: 180ms;   /* transiciones chicas */
+  --dur-3: 280ms;   /* paneles, drawers, reveals */
 }
 
 * { box-sizing: border-box; }
@@ -137,14 +144,14 @@ a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-vi
 .nav-drawer {
   position: fixed; inset: 0; z-index: 1000;
   visibility: hidden; opacity: 0;
-  transition: opacity 180ms ease, visibility 0s linear 180ms;
+  transition: opacity var(--dur-2) var(--ease-std), visibility 0s linear var(--dur-2);
 }
-.nav-drawer.open { visibility: visible; opacity: 1; transition: opacity 180ms ease; }
+.nav-drawer.open { visibility: visible; opacity: 1; transition: opacity var(--dur-2) var(--ease-std); }
 .nav-drawer-scrim { position: absolute; inset: 0; background: rgba(15,11,7,.45); }
 .nav-drawer-panel {
   position: absolute; top: 0; left: 0; bottom: 0; width: min(82vw, 340px);
   background: var(--paper); padding: 1.1rem 1.4rem 2rem;
-  transform: translateX(-100%); transition: transform 220ms cubic-bezier(.4,0,.2,1);
+  transform: translateX(-100%); transition: transform var(--dur-3) var(--ease-std);
   display: flex; flex-direction: column; overflow-y: auto;
 }
 .nav-drawer.open .nav-drawer-panel { transform: none; }
@@ -217,7 +224,7 @@ a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-vi
   background: var(--paper-on-dark); color: var(--espresso); font-weight: 600;
   padding: .5rem 1.15rem; border-radius: 3px; font-size: .82rem;
   white-space: nowrap;
-  transition: background-color 140ms ease, transform 90ms ease;
+  transition: background-color var(--dur-1) var(--ease-std), transform var(--dur-1) var(--ease-out);
 }
 .site-cta:hover { background: #fff; }
 .site-cta:active { transform: translateY(1px); }
@@ -234,7 +241,7 @@ a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-vi
   font-size: .78rem; font-weight: 500;
   padding: .65rem 0 .15rem;
   border-bottom: 1.5px solid transparent;
-  transition: color 140ms ease, border-color 140ms ease;
+  transition: color var(--dur-1) var(--ease-std), border-color var(--dur-1) var(--ease-std);
 }
 /* Secciones de compra: más peso visual que los ítems informativos */
 .site-tabs a.is-shop { color: rgba(237,232,222,.92); font-weight: 600; }
@@ -266,9 +273,9 @@ a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-vi
   box-shadow: 0 18px 40px -20px rgba(15,11,7,.4);
   z-index: 480;
   visibility: hidden; opacity: 0; transform: translateY(-6px);
-  transition: opacity 150ms ease, transform 150ms ease, visibility 0s linear 150ms;
+  transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out), visibility 0s linear var(--dur-2);
 }
-.mega-panel.open { visibility: visible; opacity: 1; transform: none; transition: opacity 150ms ease, transform 150ms ease; }
+.mega-panel.open { visibility: visible; opacity: 1; transform: none; transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out); }
 .mega-inner {
   max-width: var(--measure); margin: 0 auto;
   display: grid; grid-template-columns: repeat(4, 1fr) 1.1fr; gap: 2rem;
@@ -363,7 +370,7 @@ main > section + section::before {
 }
 .hero-actions { display: flex; align-items: center; gap: 1.6rem; margin-top: 2rem; flex-wrap: wrap; }
 @media (max-width: 720px) {
-  /* Mobile: los 3 frascos completos (assets/hero-frascos.png) en una franja
+  /* Mobile: los 3 frascos completos (assets/hero-frascos.webp) en una franja
      arriba, y el texto abajo sobre espresso. */
   .hero-full {
     display: flex; flex-direction: column;
@@ -373,7 +380,7 @@ main > section + section::before {
   .hero-bg {
     display: block; position: relative; inset: auto;
     width: 100%; aspect-ratio: 600 / 553;
-    background-image: url('assets/hero-frascos.png');
+    background-image: url('assets/hero-frascos.webp');
     background-size: cover; background-position: center;
   }
   .hero-scrim { display: none; }
@@ -393,7 +400,7 @@ main > section + section::before {
   letter-spacing: .01em;
   padding: .85rem 1.6rem; border-radius: 3px;
   background: var(--ink); color: #FBFAF7;
-  transition: background-color 140ms ease, transform 90ms ease;
+  transition: background-color var(--dur-1) var(--ease-std), transform var(--dur-1) var(--ease-out);
 }
 .hero-cta { background: #FBFAF7; color: var(--ink); }
 .hero-cta:hover { background: #fff; }
@@ -459,7 +466,7 @@ main > section + section::before {
   background: var(--card); border-radius: 2px;
   display: grid; place-items: center;
   margin-bottom: .9rem;
-  transition: opacity 140ms ease;
+  transition: opacity var(--dur-1) var(--ease-std);
 }
 .product-card .card-photo img { width: 100%; height: 100%; object-fit: contain; padding: 12%; }
 .product-card:hover .card-photo { opacity: .82; }
@@ -528,7 +535,7 @@ main > section + section::before {
   flex-shrink: 0; background: none; border: 1px solid var(--line); border-radius: 50%;
   width: 2rem; height: 2rem; cursor: pointer; color: var(--ink-soft);
   font-size: 1rem; line-height: 1; display: grid; place-items: center;
-  transition: color 120ms ease, border-color 120ms ease;
+  transition: color var(--dur-1) var(--ease-std), border-color var(--dur-1) var(--ease-std);
 }
 .brands-arrow:hover { color: var(--ink); border-color: var(--ink-soft); }
 .brands-track {
@@ -735,7 +742,7 @@ main > section + section::before {
     cursor: pointer; margin: 0; padding: 1rem 0;
     display: flex; justify-content: space-between; align-items: center;
   }
-  .footer-acc > summary .footer-acc-chev { display: block; transition: transform 160ms ease; }
+  .footer-acc > summary .footer-acc-chev { display: block; transition: transform var(--dur-2) var(--ease-std); }
   .footer-acc[open] > summary .footer-acc-chev { transform: rotate(180deg); }
   .footer-acc > div { padding: 0 0 1.1rem; }
   .footer-news { padding: 1.75rem 0 .5rem; }
