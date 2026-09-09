@@ -83,6 +83,30 @@ a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-vi
 }
 .site-header a:focus-visible, .site-footer a:focus-visible { outline-color: #C9A54B; }
 
+/* ---------- Lenguaje de hover: subrayado dorado que crece de izq. a der. ----------
+   Reemplaza a los border-bottom estáticos de los links interactivos.
+   Sólo en dispositivos con mouse (@media hover). */
+.site-tabs a, .breadcrumb a, .mega-col li a, .faq-index a,
+.text-link, .hero-cta-secondary, .cta-phone, .back-link, .product-card-link,
+.footer-grid a, .footer-acc a, .footer-map-link, .footer-legal-row a, .search-empty a {
+  background-image: linear-gradient(var(--gold), var(--gold));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  padding-bottom: 2px;
+  transition: background-size var(--dur-2) var(--ease-out), color var(--dur-1) var(--ease-std);
+}
+@media (hover: hover) {
+  .site-tabs a:hover, .breadcrumb a:hover, .mega-col li a:hover, .faq-index a:hover,
+  .text-link:hover, .hero-cta-secondary:hover, .cta-phone:hover, .back-link:hover,
+  .product-card-link:hover, .footer-grid a:hover, .footer-acc a:hover,
+  .footer-map-link:hover, .footer-legal-row a:hover, .search-empty a:hover {
+    background-size: 100% 1px;
+  }
+}
+/* Nav activo: subrayado siempre visible */
+.site-tabs a.active { background-size: 100% 1.5px; }
+
 /* ---------- La firma: línea de medida ----------
    filete horizontal con un tick vertical en el extremo izquierdo. */
 .measure-line {
@@ -218,7 +242,7 @@ a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-vi
 .search-field svg { color: var(--ink-soft); flex-shrink: 0; }
 .search-head { font-family: var(--font-ui); font-size: .85rem; color: var(--ink-soft); margin: 0 0 1.75rem; letter-spacing: .01em; }
 .search-empty { grid-column: 1 / -1; color: var(--ink-soft); max-width: 34rem; }
-.search-empty a { color: var(--ink); border-bottom: 1px solid var(--gold); }
+.search-empty a { color: var(--ink); }
 .site-phone {
   font-family: var(--font-ui);
   color: var(--paper-on-dark); font-size: .9rem; font-weight: 500;
@@ -244,14 +268,13 @@ a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-vi
 .site-tabs a {
   color: rgba(237,232,222,.62);
   font-size: .78rem; font-weight: 500;
-  padding: .65rem 0 .15rem;
-  border-bottom: 1.5px solid transparent;
-  transition: color var(--dur-1) var(--ease-std), border-color var(--dur-1) var(--ease-std);
+  padding: .65rem 0 .35rem;
+  background-position: 0 calc(100% - .15rem);
 }
 /* Secciones de compra: más peso visual que los ítems informativos */
 .site-tabs a.is-shop { color: rgba(237,232,222,.92); font-weight: 600; }
 .site-tabs a:hover { color: var(--paper-on-dark); }
-.site-tabs a.active { color: #fff; border-bottom-color: var(--gold); }
+.site-tabs a.active { color: #fff; }
 @media (max-width: 600px) { .site-tabs { column-gap: 1.1rem; } .site-tabs a { font-size: .74rem; } }
 /* En mobile: se oculta la barra de pestañas y aparece la hamburguesa */
 @media (max-width: 720px) {
@@ -436,21 +459,21 @@ main > section + section::before {
   letter-spacing: .01em;
   padding: .85rem 1.6rem; border-radius: 3px;
   background: var(--ink); color: #FBFAF7;
-  transition: background-color var(--dur-1) var(--ease-std), transform var(--dur-1) var(--ease-out);
+  transition: background-color var(--dur-1) var(--ease-std), transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
 }
 .hero-cta { background: #FBFAF7; color: var(--ink); }
-.hero-cta:hover { background: #fff; }
-.hero-cta:active, .cta-btn:active, .product-detail-cta:active { transform: translateY(1px); }
-.cta-btn:hover, .product-detail-cta:hover { background: #38312a; }
+@media (hover: hover) {
+  .hero-cta:hover { background: #fff; transform: translateY(-1px); box-shadow: 0 6px 18px -8px rgba(15,11,7,.35); }
+  .cta-btn:hover, .product-detail-cta:hover { background: #38312a; transform: translateY(-1px); box-shadow: 0 8px 22px -10px rgba(15,11,7,.4); }
+}
+.hero-cta:active, .cta-btn:active, .product-detail-cta:active { transform: translateY(1px); box-shadow: none; }
 
 .hero-cta-secondary, .text-link {
   font-family: var(--font-ui); font-weight: 600; font-size: .88rem;
   letter-spacing: .01em;
-  border-bottom: 1px solid var(--gold); padding-bottom: 2px;
 }
 .hero-cta-secondary { color: #FBFAF7; }
 .text-link { color: var(--ink); }
-.hero-cta-secondary:hover, .text-link:hover { border-bottom-color: var(--ink); }
 
 /* ---------- Categorías (home) ---------- */
 .cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: clamp(1.5rem, 4vw, 3rem); }
@@ -463,12 +486,17 @@ main > section + section::before {
   font-weight: 400; line-height: 1.15; margin-bottom: .5rem;
   padding-top: .9rem; border-top: 1px solid var(--line);
   position: relative;
+  transition: color var(--dur-1) var(--ease-std), transform var(--dur-2) var(--ease-out);
 }
 .cat-card h3::before {
   content: ""; position: absolute; left: 0; top: -4px;
   width: 1px; height: 9px; background: var(--gold);
+  transition: height var(--dur-2) var(--ease-out);
 }
-.cat-card:hover h3 { color: var(--gold); }
+@media (hover: hover) {
+  .cat-card:hover h3 { color: var(--gold); transform: translateX(5px); }
+  .cat-card:hover h3::before { height: 17px; }
+}
 .cat-card p { margin: 0; font-size: .96rem; color: var(--ink-soft); }
 .cat-taglist { display: flex; flex-wrap: wrap; gap: .4rem 1rem; margin-top: 1rem; list-style: none; padding: 0; }
 .cat-taglist li { font-family: var(--font-ui); font-size: .78rem; color: var(--ink-soft); }
@@ -506,10 +534,15 @@ main > section + section::before {
   background: #fff; border-radius: 2px;
   display: grid; place-items: center;
   margin-bottom: .9rem;
-  transition: opacity var(--dur-1) var(--ease-std);
 }
-.product-card .card-photo img { width: 100%; height: 100%; object-fit: contain; padding: 0; }
-.product-card:hover .card-photo { opacity: .82; }
+.product-card .card-photo img {
+  width: 100%; height: 100%; object-fit: contain; padding: 0;
+  transition: transform var(--dur-3) var(--ease-out);
+}
+@media (hover: hover) {
+  .product-card:hover .card-photo img { transform: scale(1.04); }
+  .product-card:hover h3 { color: var(--gold); }
+}
 
 /* Reveal sutil de las tarjetas al entrar en viewport (motion.js agrega .reveal-grid + .in) */
 @media (prefers-reduced-motion: no-preference) {
@@ -524,6 +557,7 @@ main > section + section::before {
 .product-card h3 {
   font-family: var(--font-display); font-weight: 400; font-size: 1.1rem;
   line-height: 1.2; color: var(--ink); margin-bottom: .6rem;
+  transition: color var(--dur-1) var(--ease-std);
 }
 .product-price-list { list-style: none; margin: 0; padding: 0; }
 .product-price-list li {
@@ -539,7 +573,7 @@ main > section + section::before {
 }
 .product-price-list strong { color: var(--ink); font-weight: 600; }
 .product-card .zshot-note { color: var(--gold); font-weight: 600; margin: 0; font-size: .9rem; }
-.product-card-link { display: block; margin-top: 1rem; font-family: var(--font-ui); font-size: .82rem; font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--gold); width: max-content; padding-bottom: 2px; }
+.product-card-link { display: block; margin-top: 1rem; font-family: var(--font-ui); font-size: .82rem; font-weight: 600; color: var(--ink); width: max-content; padding-bottom: 2px; }
 
 /* catálogo (toolbar de decants/perfumes/mayorista) */
 .catalog { max-width: var(--measure); margin: 0 auto; }
@@ -652,7 +686,7 @@ main > section + section::before {
 .cta-phone {
   display: inline-block; margin-left: 1.5rem; font-family: var(--font-ui);
   font-size: .95rem; font-weight: 600; color: var(--ink);
-  border-bottom: 1px solid var(--gold); padding-bottom: 2px;
+  padding-bottom: 2px;
 }
 @media (max-width: 480px) { .cta-phone { display: block; margin: 1.2rem 0 0; } }
 
@@ -668,9 +702,15 @@ main > section + section::before {
   width: 100%; aspect-ratio: 1; overflow: hidden;
   background: #fff; border-radius: 2px; display: grid; place-items: center;
 }
-.product-detail .card-photo img { width: 100%; height: 100%; object-fit: contain; padding: 0; }
+.product-detail .card-photo img {
+  width: 100%; height: 100%; object-fit: contain; padding: 0;
+  transition: transform var(--dur-3) var(--ease-out);
+}
 @media (prefers-reduced-motion: no-preference) {
   .product-detail .card-photo img { animation: pdImg .4s var(--ease-out) both; }
+}
+@media (hover: hover) {
+  .product-detail .card-photo:hover img { transform: scale(1.03); }
 }
 @keyframes pdImg { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: none; } }
 .product-detail-info .eyebrow { margin-bottom: .5rem; }
@@ -679,7 +719,7 @@ main > section + section::before {
 .product-detail-info .product-price-list li { font-size: .95rem; padding-top: .7rem; }
 .product-detail-desc { font-size: 1.05rem; line-height: 1.65; color: var(--ink-soft); margin-bottom: 1.8rem; max-width: 34rem; }
 .product-detail-note { margin-top: 1.3rem; font-family: var(--font-ui); font-size: .82rem; color: var(--ink-soft); }
-.back-link { display: inline-block; margin: 2.5rem 0 0; font-family: var(--font-ui); font-size: .84rem; font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--gold); padding-bottom: 2px; }
+.back-link { display: inline-block; margin: 2.5rem 0 0; font-family: var(--font-ui); font-size: .84rem; font-weight: 600; color: var(--ink); padding-bottom: 2px; }
 
 /* ---------- Estado vacío ---------- */
 .empty-state { max-width: 34rem; margin: 0 auto; padding: 2rem 1rem 1rem; }
@@ -723,7 +763,7 @@ main > section + section::before {
 .footer-grid p { margin: .4rem 0; font-size: .9rem; }
 .footer-grid a { color: rgba(237,232,222,.72); }
 .footer-grid a:hover { color: #fff; }
-.footer-map-link { display: inline-block; margin-top: .5rem; color: #C9A54B; border-bottom: 1px solid rgba(201,165,75,.5); padding-bottom: 1px; }
+.footer-map-link { display: inline-block; margin-top: .5rem; color: #C9A54B; padding-bottom: 1px; }
 .footer-legal { font-size: .76rem; color: rgba(237,232,222,.45); }
 @media (max-width: 640px) { .footer-grid { gap: 2rem; } }
 
@@ -788,7 +828,7 @@ main > section + section::before {
   padding: 1.75rem 0 0; border-top: 1px solid rgba(237,232,222,.12);
 }
 .footer-legal-row p { margin: 0; font-size: .76rem; color: rgba(237,232,222,.45); }
-.footer-legal-row a { color: rgba(237,232,222,.6); border-bottom: 1px solid rgba(201,165,75,.4); }
+.footer-legal-row a { color: rgba(237,232,222,.6); }
 .footer-legal-row a:hover { color: #fff; }
 
 @media (max-width: 720px) {
