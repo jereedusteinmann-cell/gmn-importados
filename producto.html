@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Decant | GMN Importados</title>
+<meta name="description" content="Decant de perfume original. Probá antes de comprar el frasco completo." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="motion.css" />
+<link rel="stylesheet" href="site.css" />
+</head>
+<body>
+
+<div class="mk-intro"><img src="assets/logo.png" alt="" /></div>
+
+<header class="site-header">
+  <div class="site-header-top">
+    <a href="index.html" class="site-logo brand-card"><img src="assets/logo.png" alt="GMN Importados" /></a>
+    <div class="site-header-actions">
+      <a href="tel:1128710667" class="site-phone">11 2871-0667</a>
+      <a href="https://wa.me/541128710667" class="site-cta" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+  <nav class="site-tabs">
+    <a href="index.html">Inicio</a>
+    <a href="decants.html" id="tab-decants">Decants</a>
+    <a href="perfumes.html" id="tab-perfumes">Perfumes</a>
+    <a href="mayorista.html" id="tab-mayorista">Frascos Vacíos Mayorista</a>
+    <a href="preguntas-frecuentes.html">Preguntas Frecuentes</a>
+    <a href="cambios-y-devoluciones.html">Cambios y Devoluciones</a>
+    <a href="como-comprar.html">Cómo Comprar</a>
+  </nav>
+</header>
+
+<main>
+  <section>
+    <p class="breadcrumb section-inner"><a href="index.html">Inicio</a> &gt; <a href="decants.html" id="crumb-cat-link">Decants</a> &gt; <span id="crumb-name">...</span></p>
+    <div class="product-detail" id="product-detail">
+      <div class="brand-card card-photo"><img id="p-img" src="" alt="" /></div>
+      <div class="product-detail-info">
+        <span class="eyebrow" id="p-brand"></span>
+        <h1 id="p-name"></h1>
+        <ul class="product-price-list">
+          <li><span>Precio</span><strong id="p-price"></strong></li>
+        </ul>
+        <p class="product-detail-desc" id="p-desc"></p>
+        <a href="#" id="p-cta" class="product-detail-cta mk-pulse" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        <p class="product-detail-note" id="p-note">Nuestros decants se realizan a partir de perfumes 100% originales.</p>
+      </div>
+    </div>
+    <a href="decants.html" class="back-link" id="back-link">← Volver</a>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <h3>Contacto</h3>
+        <p><a href="tel:1128710667">11 2871-0667</a></p>
+        <p><a href="https://wa.me/541128710667" target="_blank" rel="noopener">WhatsApp</a></p>
+        <p><a href="https://instagram.com/gmn.importados" target="_blank" rel="noopener">@gmn.importados</a></p>
+      </div>
+      <div>
+        <h3>Retiro en local</h3>
+        <p>Del Campillo 2752, entre Jujuy y Juan Florio, Villa Luzuriaga</p>
+        <p>Lunes a viernes de 12 a 17 hs</p>
+        <a class="footer-map-link" href="https://www.google.com/maps/search/?api=1&query=Del+Campillo+2752+Villa+Luzuriaga" target="_blank" rel="noopener">Ver en Google Maps</a>
+      </div>
+    </div>
+    <p class="footer-legal">GMN Importados — Envíos a todo el país</p>
+  </div>
+</footer>
+
+<script src="decants-data.js"></script>
+<script src="motion.js"></script>
+<script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var id = params.get('id');
+  var p = DECANTS.find(function (d) { return d.id === id; });
+
+  if (!p) {
+    document.title = 'Producto no encontrado | GMN Importados';
+    var crumb = document.getElementById('crumb-name');
+    if (crumb) crumb.textContent = 'Producto no encontrado';
+    document.getElementById('product-detail').outerHTML =
+      '<div class="empty-state">' +
+        '<h1>No encontramos ese producto</h1>' +
+        '<p>Puede que ya no esté disponible o que el enlace sea viejo. Mirá el catálogo completo:</p>' +
+        '<div class="empty-state-actions">' +
+          '<a href="decants.html" class="cta-btn">Ver decants</a>' +
+          '<a href="perfumes.html" class="text-link">Ver perfumes</a>' +
+        '</div>' +
+      '</div>';
+    var bl = document.getElementById('back-link');
+    if (bl) { bl.href = 'index.html'; bl.textContent = '← Volver al inicio'; }
+    return;
+  }
+
+  var CAT = {
+    decant:  { page: 'decants.html',  label: 'Decants',  tab: 'tab-decants',
+               note: 'Nuestros decants se realizan a partir de perfumes 100% originales.',
+               ctaPrefix: 'el decant ' },
+    perfume: { page: 'perfumes.html', label: 'Perfumes', tab: 'tab-perfumes',
+               note: 'Perfume 100% original, en su envase de fábrica.',
+               ctaPrefix: '' },
+    envase:  { page: 'mayorista.html', label: 'Frascos Vacíos Mayorista', tab: 'tab-mayorista',
+               note: 'Precio por pack. Consultá cantidades por unidad y descuentos por volumen.',
+               ctaPrefix: '' }
+  };
+  var cfg = CAT[p.category] || CAT.decant;
+  var name = p.name.replace(/ Decant$/i, '');
+  document.title = p.name + ' | GMN Importados';
+  document.getElementById('crumb-name').textContent = name;
+  document.getElementById('crumb-cat-link').href = cfg.page;
+  document.getElementById('crumb-cat-link').textContent = cfg.label;
+  document.getElementById('back-link').href = cfg.page;
+  document.getElementById('back-link').textContent = '← Volver a ' + cfg.label;
+  document.getElementById(cfg.tab).classList.add('active');
+  document.getElementById('p-img').src = p.img;
+  document.getElementById('p-img').alt = p.name;
+  document.getElementById('p-brand').textContent = p.brand;
+  document.getElementById('p-name').textContent = name;
+  document.getElementById('p-price').textContent = '$' + p.price.toLocaleString('es-AR');
+  document.getElementById('p-desc').textContent = p.desc;
+  document.getElementById('p-note').textContent = cfg.note;
+  document.getElementById('p-cta').href = 'https://wa.me/541128710667?text=' + encodeURIComponent('Hola! Quiero consultar por ' + cfg.ctaPrefix + name);
+})();
+</script>
+</body>
+</html>

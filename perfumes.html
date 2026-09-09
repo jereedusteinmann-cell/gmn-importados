@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Perfumes | Liquidación | GMN Importados</title>
+<meta name="description" content="Perfumes originales en su envase de fábrica, a precio de liquidación. Lattafa, Armaf, Al Haramain, Xerjoff, YSL y más." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="motion.css" />
+<link rel="stylesheet" href="site.css" />
+<style>
+  .catalog { max-width: 1240px; margin: 0 auto; }
+  .catalog-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+  .catalog-count { font-size: .85rem; color: var(--mk-texto-suave); }
+  .catalog-sort select {
+    background: var(--dark2); border: 1px solid var(--line); color: var(--mk-texto);
+    border-radius: 8px; padding: .55rem .8rem; font-size: .85rem; font-family: var(--font-body);
+  }
+</style>
+</head>
+<body>
+
+<div class="mk-intro"><img src="assets/logo.png" alt="" /></div>
+
+<header class="site-header">
+  <div class="site-header-top">
+    <a href="index.html" class="site-logo brand-card"><img src="assets/logo.png" alt="GMN Importados" /></a>
+    <div class="site-header-actions">
+      <a href="tel:1128710667" class="site-phone">11 2871-0667</a>
+      <a href="https://wa.me/541128710667" class="site-cta" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+  <nav class="site-tabs">
+    <a href="index.html">Inicio</a>
+    <a href="decants.html">Decants</a>
+    <a href="perfumes.html" class="active">Perfumes</a>
+    <a href="mayorista.html">Frascos Vacíos Mayorista</a>
+    <a href="preguntas-frecuentes.html">Preguntas Frecuentes</a>
+    <a href="cambios-y-devoluciones.html">Cambios y Devoluciones</a>
+    <a href="como-comprar.html">Cómo Comprar</a>
+  </nav>
+</header>
+
+<main>
+
+  <div class="page-header">
+    <p class="breadcrumb"><a href="index.html">Inicio</a> &gt; Perfumes</p>
+    <h1>Liquidación de perfumes</h1>
+    <p>Frascos completos, originales, en su envase de fábrica — a precio de liquidación.</p>
+  </div>
+
+  <section>
+    <div class="catalog">
+      <div class="catalog-toolbar">
+        <span class="catalog-count" id="catalog-count"></span>
+        <span class="catalog-sort">
+          <select id="sort-select">
+            <option value="default">Destacados</option>
+            <option value="price-asc">Precio: menor a mayor</option>
+            <option value="price-desc">Precio: mayor a menor</option>
+            <option value="name-asc">Nombre: A-Z</option>
+          </select>
+        </span>
+      </div>
+      <div class="product-grid" id="product-grid"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="trust-statement" style="max-width:1080px;">
+      <p style="margin:0;">¿Preferís probar antes? Mirá los <a href="decants.html" class="text-link" style="display:inline-block;">decants</a>. ¿Armás tus propios envases? Mirá la línea <a href="mayorista.html" class="text-link" style="display:inline-block;">mayorista</a>.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <h3>Contacto</h3>
+        <p><a href="tel:1128710667">11 2871-0667</a></p>
+        <p><a href="https://wa.me/541128710667" target="_blank" rel="noopener">WhatsApp</a></p>
+        <p><a href="https://instagram.com/gmn.importados" target="_blank" rel="noopener">@gmn.importados</a></p>
+      </div>
+      <div>
+        <h3>Retiro en local</h3>
+        <p>Del Campillo 2752, entre Jujuy y Juan Florio, Villa Luzuriaga</p>
+        <p>Lunes a viernes de 12 a 17 hs</p>
+        <a class="footer-map-link" href="https://www.google.com/maps/search/?api=1&query=Del+Campillo+2752+Villa+Luzuriaga" target="_blank" rel="noopener">Ver en Google Maps</a>
+      </div>
+    </div>
+    <p class="footer-legal">GMN Importados — Envíos a todo el país</p>
+  </div>
+</footer>
+
+<script src="decants-data.js"></script>
+<script src="motion.js"></script>
+<script>
+(function () {
+  var grid = document.getElementById('product-grid');
+  var countEl = document.getElementById('catalog-count');
+  var sortSelect = document.getElementById('sort-select');
+
+  function fmtPrice(n) { return '$' + n.toLocaleString('es-AR'); }
+
+  function card(p) {
+    var a = document.createElement('a');
+    a.href = 'producto.html?id=' + p.id;
+    a.className = 'product-card mk-card';
+    a.innerHTML =
+      '<div class="brand-card card-photo"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy" /></div>' +
+      '<span class="eyebrow">' + p.brand + '</span>' +
+      '<h3>' + p.name + '</h3>' +
+      '<ul class="product-price-list"><li><span>Precio</span><strong>' + fmtPrice(p.price) + '</strong></li></ul>';
+    return a;
+  }
+
+  function render() {
+    var list = DECANTS.filter(function (p) { return p.category === 'perfume'; });
+    var sort = sortSelect.value;
+    if (sort === 'price-asc') list.sort(function (a, b) { return a.price - b.price; });
+    else if (sort === 'price-desc') list.sort(function (a, b) { return b.price - a.price; });
+    else if (sort === 'name-asc') list.sort(function (a, b) { return a.name.localeCompare(b.name); });
+
+    grid.innerHTML = '';
+    list.forEach(function (p) { grid.appendChild(card(p)); });
+    countEl.textContent = list.length + ' perfumes';
+  }
+
+  sortSelect.addEventListener('change', render);
+  render();
+})();
+</script>
+</body>
+</html>

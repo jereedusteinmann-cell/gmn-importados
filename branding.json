@@ -1,0 +1,57 @@
+{
+  "negocio": "GMN Importados",
+  "claim": "Envases de vidrio premium y decants de perfumes originales",
+  "logo": "assets/logo.png",
+  "colores": {
+    "primario": "#003DEE",
+    "secundario": "#252525",
+    "fondo": "#FFFFFF",
+    "texto": "#333333",
+    "acento": "#C8FF55"
+  },
+  "tipografias": {
+    "titulos": "Poppins",
+    "texto": "Inter"
+  },
+  "contacto": {
+    "tel": "1128710667",
+    "whatsapp": "541128710667",
+    "direccion": "Del Campillo 2752, entre Jujuy y Juan Florio, Villa Luzuriaga",
+    "horario": "Retiro en local: lunes a viernes de 12 a 17hs"
+  },
+  "redes": {
+    "instagram": "https://instagram.com/gmn.importados",
+    "facebook": "https://www.facebook.com/profile.php?id=100093696260982"
+  },
+  "servicios": [
+    { "nombre": "Envíos a todo el país", "detalle": "Gratis a partir de $70.000" },
+    { "nombre": "Cuotas sin interés", "detalle": "Comprá con todos los medios de pago" },
+    { "nombre": "Perfumes originales", "detalle": "Fragancias y decants 100% originales" },
+    { "nombre": "Atención personalizada", "detalle": "Te asesoramos por WhatsApp" }
+  ],
+  "categorias": [
+    "Decants",
+    "Liquidación de perfumes",
+    "Frascos vacíos mayorista (envases de vidrio premium y packaging para perfumerías, decants y emprendimientos)"
+  ],
+  "pruebas_sociales": [],
+  "carta": [
+    { "nombre": "Xerjoff Erba Pura Decant — 3ml (70 sprays)", "precio": "$19.000 (antes $38.000)" },
+    { "nombre": "Xerjoff Erba Pura Decant — 5ml (120 sprays)", "precio": "$35.500 (antes $71.000)" },
+    { "nombre": "Xerjoff Erba Pura Decant — 10ml (240 sprays)", "precio": "$64.000 (antes $128.000)" },
+    { "nombre": "Emporio Armani Stronger With You Intensely Decant — 3ml (70 sprays)", "precio": "$12.000 (antes $24.000)" },
+    { "nombre": "Emporio Armani Stronger With You Intensely Decant — 5ml (120 sprays)", "precio": "$20.000 (antes $40.000)" },
+    { "nombre": "Emporio Armani Stronger With You Intensely Decant — 10ml (240 sprays)", "precio": "$39.000 (antes $78.000)" },
+    { "nombre": "Valentino Uomo Born in Roma Intense Decant", "precio": "Disponible en 3ml / 5ml / 10ml" },
+    { "nombre": "Otros: Xerjoff Naxos, Dior Sauvage EDP, Al Haramain Amber Oud Gold, Jean Paul Gaultier Le Male Elixir, YSL Y EDP, Versace Eros Flame, Azzaro The Most Wanted Intense, Jo Milano Paris (Game of Spades), Rabanne Phantom in Red, Rasasi Hawas Diva, Armaf Club de Nuit Intense Woman", "precio": "Decants — ver catálogo" }
+  ],
+  "menu_del_dia": null,
+  "historia": "",
+  "eventos": [],
+  "premios": [],
+  "resenas": [
+    { "nombre": "Maty, CABA", "texto": "Excelente atención y productos originales. El pedido llegó rápido, muy bien presentado y en perfectas condiciones." },
+    { "nombre": "Uriel, Mendoza", "texto": "Muy buena experiencia de compra. Me asesoraron por WhatsApp y pude elegir el perfume ideal sin dudas." },
+    { "nombre": "Joaquin, Córdoba", "texto": "Ya les compré varias veces y siempre cumplieron. Los perfumes son originales. Súper recomendables." }
+  ]
+}

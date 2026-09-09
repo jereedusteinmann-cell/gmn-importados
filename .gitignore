@@ -1,0 +1,8 @@
+# material de referencia / no publicado
+original/
+web-lista.zip
+
+# sistema
+.DS_Store
+Thumbs.db
+node_modules/
