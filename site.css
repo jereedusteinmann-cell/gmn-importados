@@ -88,7 +88,8 @@ a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-vi
    Sólo en dispositivos con mouse (@media hover). */
 .site-tabs a, .breadcrumb a, .mega-col li a, .faq-index a,
 .text-link, .hero-cta-secondary, .cta-phone, .back-link, .product-card-link,
-.footer-grid a, .footer-acc a, .footer-map-link, .footer-legal-row a, .search-empty a {
+.footer-grid a, .footer-acc a, .footer-map-link, .footer-legal-row a, .search-empty a,
+.cat-card-cta {
   background-image: linear-gradient(var(--gold), var(--gold));
   background-repeat: no-repeat;
   background-position: 0 100%;
@@ -100,7 +101,8 @@ a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-vi
   .site-tabs a:hover, .breadcrumb a:hover, .mega-col li a:hover, .faq-index a:hover,
   .text-link:hover, .hero-cta-secondary:hover, .cta-phone:hover, .back-link:hover,
   .product-card-link:hover, .footer-grid a:hover, .footer-acc a:hover,
-  .footer-map-link:hover, .footer-legal-row a:hover, .search-empty a:hover {
+  .footer-map-link:hover, .footer-legal-row a:hover, .search-empty a:hover,
+  .cat-card:hover .cat-card-cta {
     background-size: 100% 1px;
   }
 }
@@ -480,6 +482,15 @@ main > section + section::before {
 .cat-card {
   display: block; padding: 0; background: none; border: none;
 }
+.cat-card-photo {
+  aspect-ratio: 4 / 3; margin-bottom: 1.1rem; background: var(--card);
+  display: flex; align-items: flex-end; justify-content: center; overflow: hidden;
+}
+.cat-card-photo img {
+  max-width: 62%; max-height: 92%; object-fit: contain;
+  transition: transform var(--dur-3) var(--ease-out);
+}
+@media (hover: hover) { .cat-card:hover .cat-card-photo img { transform: scale(1.05); } }
 .cat-card .eyebrow { margin-bottom: .6rem; }
 .cat-card h3 {
   font-family: var(--font-display); font-size: clamp(1.35rem, 3vw, 1.7rem);
@@ -501,12 +512,23 @@ main > section + section::before {
 .cat-taglist { display: flex; flex-wrap: wrap; gap: .4rem 1rem; margin-top: 1rem; list-style: none; padding: 0; }
 .cat-taglist li { font-family: var(--font-ui); font-size: .78rem; color: var(--ink-soft); }
 .cat-taglist li::before { content: "— "; color: var(--gold); }
+.cat-card-cta {
+  display: inline-block; margin-top: 1.1rem;
+  font-family: var(--font-ui); font-size: .82rem; font-weight: 600;
+  letter-spacing: .02em; color: var(--ink);
+}
 
 /* ---------- Explicador ---------- */
-.explainer { max-width: var(--measure); margin: 0 auto; }
-.explainer > * { max-width: var(--measure-text); }
+.explainer { max-width: var(--measure); margin: 0 auto; display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+.explainer-text > * { max-width: var(--measure-text); }
 .explainer h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); }
 .explainer p { margin-top: 1rem; font-size: 1.1rem; color: var(--ink-soft); }
+.explainer-photo { display: flex; justify-content: center; }
+.explainer-photo img { max-width: min(100%, 220px); height: auto; }
+@media (max-width: 780px) {
+  .explainer { grid-template-columns: 1fr; }
+  .explainer-photo { order: -1; max-width: 180px; margin: 0 auto; }
+}
 
 /* ---------- Productos ---------- */
 .product-grid {
